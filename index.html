@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Calculator</title>
+    <style>
+        body {
+            background-image: url(https://e1.pxfuel.com/desktop-wallpaper/706/463/desktop-wallpaper-math-misc-hq-math-subjects.jpg);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #calculator {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            margin: 5px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button:active {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        #display {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            font-size: 24px;
+            text-align: right;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="display" readonly>
+        <div>
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="setOperator('/')">/</button>
+        </div>
+        <div>
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="setOperator('*')">*</button>
+        </div>
+        <div>
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="setOperator('-')">-</button>
+        </div>
+        <div>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendDecimal()">.</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="setOperator('+')">+</button>
+        </div>
+        <div>
+            <button onclick="clearDisplay()">C</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '';
+        let currentOperator = '';
+        let previousValue = '';
+
+        function appendValue(value) {
+            currentValue += value;
+            display.value = currentValue;
+        }
+
+        function setOperator(operator) {
+            if (currentValue !== '') {
+                currentOperator = operator;
+                previousValue = currentValue;
+                currentValue = '';
+            }
+        }
+
+        function calculate() {
+            if (currentValue !== '' && previousValue !== '') {
+                switch (currentOperator) {
+                    case '+':
+                        currentValue = String(Number(previousValue) + Number(currentValue));
+                        break;
+                    case '-':
+                        currentValue = String(Number(previousValue) - Number(currentValue));
+                        break;
+                    case '*':
+                        currentValue = String(Number(previousValue) * Number(currentValue));
+                        break;
+                    case '/':
+                        if (Number(currentValue) !== 0) {
+                            currentValue = String(Number(previousValue) / Number(currentValue));
+                        } else {
+                            currentValue = 'Error';
+                        }
+                        break;
+                }
+                display.value = currentValue;
+                currentOperator = '';
+                previousValue = '';
+            }
+        }
+
+        function appendDecimal() {
+            if (currentValue.indexOf('.') === -1) {
+                currentValue += '.';
+                display.value = currentValue;
+            }
+        }
+
+        function clearDisplay() {
+            currentValue = '';
+            currentOperator = '';
+            previousValue = '';
+            display.value = '';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
